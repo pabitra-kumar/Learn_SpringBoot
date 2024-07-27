@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Learn_SpringBoot.dto.EmployeeDTO;
@@ -19,6 +20,7 @@ import jakarta.websocket.server.PathParam;
 // DELETE /employees/{id}
 
 @RestController
+@RequestMapping(path = "/employees")
 public class EmployeeController {
 
     final EmployeeService employeeService;
@@ -27,19 +29,19 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(path = "/employees/{id}")
+    @GetMapping(path = "/{id}")
     public EmployeeDTO getEmployeeById(@PathVariable("id") Long employeeId) {
         return employeeService.getEmployeeById(employeeId);
     }
 
-    @GetMapping(path = "/employees")
+    @GetMapping
     public String getEmployee(@PathParam("sortBy") String sortBy, @PathParam("limit") String limit) {
         return "Hello " + sortBy + " " + limit;
     }
 
-    @PostMapping(path = "/employees")
-    public String createNewEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        return "Hello ";
+    @PostMapping
+    public EmployeeDTO createNewEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createNewEmployee(employeeDTO);
     }
 
 }
